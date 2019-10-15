@@ -1,0 +1,64 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+version: "3"
+
+networks:
+  hadoop-overlay:
+    driver: host
+services:
+  hadoop-master:
+    image: xiaoqiaotq/hadoop:1.0
+    ports:
+      - "50070:50070"
+      - "8088:8088"
+      - "16010:16010"
+      - "10002:10002"
+    networks:
+      - hadoop-overlay
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  hadoop-slave1:
+    image: xiaoqiaotq/hadoop:1.0
+    ports:
+      - "2181:2181"
+      - "16030:16030"
+    networks:
+      - hadoop-overlay
+    deploy:
+      placement:
+        constraints: [node.hostname == slave1]
+  hadoop-slave2:
+    image: xiaoqiaotq/hadoop:1.0
+    ports:
+      - "2181:2181"
+      - "16030:16030"
+    networks:
+      - hadoop-overlay
+    deploy:
+      placement:
+        constraints: [node.hostname == slave2]
+  hadoop-slave3:
+    image: xiaoqiaotq/hadoop:1.0
+    ports:
+      - "2181:2181"
+      - "16030:16030"
+    networks:
+      - hadoop-overlay
+    deploy:
+      placement:
+        constraints: [node.hostname == slave4]

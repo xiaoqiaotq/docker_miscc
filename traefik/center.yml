@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  center:
+    image: docker.17usoft.com/itlsaqa/dss.storage.center:0.0.1
+    command: java -jar /usr/local/center.jar
+    networks:
+      - traefik_proxy
+    deploy:
+      labels:
+        - traefik.backend=center
+        - traefik.frontend.rule=Host:center.cloud-labs.io
+        - traefik.docker.network=traefik_proxy
+        - traefik.port=8080
+networks:
+  traefik_proxy:
+    external: true

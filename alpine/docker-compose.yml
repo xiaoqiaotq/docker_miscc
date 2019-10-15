@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  web:
+    image: "nginx:alpine"
+    networks:
+      - outside
+
+networks:
+  outside:
+    external:
+      name: "host"

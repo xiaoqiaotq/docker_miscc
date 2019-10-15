@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  zoo1:
+    image: zookeeper:3.4
+    hostname: zoo1
+    # ports:
+    #   - 2181:2181
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=slave2:2888:3888 server.3=slave3:2888:3888
+    deploy:
+      placement:
+        constraints: [node.hostname == slave1]
+    networks:
+      - outside   
+  zoo2:
+    image: zookeeper:3.4
+    hostname: zoo2
+    # ports:
+    #   - 2182:2181
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=slave1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=slave3:2888:3888
+    deploy:
+      placement:
+        constraints: [node.hostname == slave2]
+    networks:
+      - outside
+  zoo3:
+    image: zookeeper:3.4
+    hostname: zoo3
+    # ports:
+    #   - 2183:2181
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=slave1:2888:3888 server.2=slave2:2888:3888 server.3=0.0.0.0:2888:3888
+    deploy:
+      placement:
+        constraints: [node.hostname == slave3]
+    networks:
+      - outside
+
+networks:
+  outside:
+    external:
+      name: "host"

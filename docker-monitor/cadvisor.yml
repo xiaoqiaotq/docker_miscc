@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  cadvisor:
+    image: google/cadvisor:v0.33.0
+    container_name: cadvisor
+    restart: always
+    volumes:
+       - /:/rootfs:ro
+       - /var/run:/var/run:rw
+       - /sys:/sys:ro
+       - /var/lib/docker/:/var/lib/docker:ro
+    ports: 
+      - 8084:8080
+    privileged: true
+    command:   -storage_driver=elasticsearch -storage_driver_es_host="http://elasticsearch:9200"

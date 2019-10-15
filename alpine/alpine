@@ -1,0 +1,5 @@
+FROM alpine
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN apk --no-cache update \
+ && apk --no-cache add build-base ca-certificates git python curl wget
+RUN rm -rf /var/cache/apk/*
