@@ -1,0 +1,22 @@
+version: "3"
+
+networks:
+  outside:
+    external:
+      name: "host"
+services:
+  coordinator:
+    image: xiaoqiaotq/coordinator:latest
+    command: ["coordinator"]
+    networks:
+      - outside
+    deploy:
+      placement:
+        constraints: [node.hostname == manager]
+  worker:
+    image: xiaoqiaotq/coordinator:latest
+    command: ["worker"]
+    networks:
+      - outside
+    deploy:
+      replicas: 3
