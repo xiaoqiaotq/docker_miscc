@@ -29,6 +29,7 @@ function print_help {
 
 if [[ "$1" == "coordinator" ]]; then
   sed  -i "s/node-scheduler.include-coordinator=false/node-scheduler.include-coordinator=true/g" /usr/lib/presto/etc/config.properties
+  sed  -i "s/coordinator=true/coordinator=false/g" /usr/lib/presto/etc/config.properties
   sed  -i "s/localhost/192.168.99.110/g" /usr/lib/presto/etc/config.properties
   #node.properties
   sed  -i "s/^node.id=.*/node.id=$(uuidgen)/g" /usr/lib/presto/etc/node.properties
@@ -42,7 +43,7 @@ elif [[ "$1" == "worker" ]]; then
 #    TSERVER_ARGS="--tserver_master_addrs=localhost $TSERVER_ARGS"
 #  fi
   sed  -i "s/localhost/192.168.99.110/g" /usr/lib/presto/etc/config.properties
-  sed  -i "s/coordinator=true/coordinator=false/g" /usr/lib/presto/etc/config.properties
+  sed  -i "/coordinator=true/d" /usr/lib/presto/etc/config.properties
   sed  -i "/discovery-server.enabled=true/d" /usr/lib/presto/etc/config.properties
   #node.properties
   sed  -i "s/^node.id=.*/node.id=$(uuidgen)/g" /usr/lib/presto/etc/node.properties
