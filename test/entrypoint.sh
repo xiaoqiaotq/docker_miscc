@@ -28,12 +28,12 @@ function print_help {
 }
 
 if [[ "$1" == "coordinator" ]]; then
-  sed  -i "s/node-scheduler.include-coordinator=false/node-scheduler.include-coordinator=true/g" /etc/presto/config.properties
-  sed  -i "s/localhost/192.168.99.110/g" /etc/presto/config.properties
+  sed  -i "s/node-scheduler.include-coordinator=false/node-scheduler.include-coordinator=true/g" /usr/lib/presto/etc/config.properties
+  sed  -i "s/localhost/192.168.99.110/g" /usr/lib/presto/etc/config.properties
   #node.properties
-  sed  -i "/^node.id=.*/node.id=$(uuidgen)" /etc/presto/node.properties
+  sed  -i "/^node.id=.*/node.id=$(uuidgen)" /usr/lib/presto/etc/node.properties
 
-  cat /etc/presto/config.properties /etc/presto/node.properties
+  cat /etc/presto/config.properties /usr/lib/presto/etc/node.properties
   exec echo 'coordinator'
 elif [[ "$1" == "worker" ]]; then
 #  if [[ -n "$KUDU_MASTERS" ]]; then
@@ -41,12 +41,12 @@ elif [[ "$1" == "worker" ]]; then
 #  else
 #    TSERVER_ARGS="--tserver_master_addrs=localhost $TSERVER_ARGS"
 #  fi
-  sed  -i "s/localhost/192.168.99.110/g" /etc/presto/config.properties
-  sed  -i "s/coordinator=true/coordinator=false/g" /etc/presto/config.properties
-  sed  -i "/discovery-server.enabled=true/d" /etc/presto/config.properties
+  sed  -i "s/localhost/192.168.99.110/g" /usr/lib/presto/etc/config.properties
+  sed  -i "s/coordinator=true/coordinator=false/g" /usr/lib/presto/etc/config.properties
+  sed  -i "/discovery-server.enabled=true/d" /usr/lib/presto/etc/config.properties
   #node.properties
-  sed  -i "/^node.id=.*/node.id=$(uuidgen)" /etc/presto/node.properties
-  cat  /etc/presto/config.properties /etc/presto/node.properties
+  sed  -i "/^node.id=.*/node.id=$(uuidgen)" /usr/lib/presto/etc/node.properties
+  cat  /etc/presto/config.properties /usr/lib/presto/etc/node.properties
   exec echo 'worker'
 elif [[ "$1" == "help" ]]; then
   print_help
